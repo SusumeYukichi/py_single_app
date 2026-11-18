@@ -2,16 +2,19 @@ import sys
 
 import pyperclip
 
-print("*" * 30)
+# 区切線
+line_obj = "=" * 30
+
+print(line_obj)
 print("<プログラム開始>")
-print("*" * 30)
+print(line_obj)
 
 
 # テキストの選択
 def get_paste_obj():
     p_obj = pyperclip.paste()
     print(f"<選択完了>\n{p_obj}")
-    print("*" * 30)
+    print(line_obj)
     return p_obj
 
 
@@ -37,7 +40,7 @@ def paste_check(p_obj):
     # 0文字以上の文字選択検証
     assert len(p_obj) >= 0
     print("選択範囲検証完了")
-    print("*" * 30)
+    print(line_obj)
     return p_obj
 
 
@@ -45,7 +48,7 @@ def paste_check(p_obj):
 def get_list_obj(return_obj):
     list_obj = return_obj.split("\n")
     print(f"対象のリスト化完了:\n{list_obj}")
-    print("*" * 30)
+    print(line_obj)
     return list_obj
 
 
@@ -65,19 +68,19 @@ def add_item(list_obj):
             lines = list_obj[i]
             new_list.append(lines)
     text_obj = "\n".join(new_list)
-    print("*" * 30)
+    print(line_obj)
     print("<記号処理完了>")
     return text_obj
 
 
 # 文字数・処理結果取得
 def get_result(text_obj):
-    print("*" * 30)
+    print(line_obj)
     print("<文字合計数>" + "\n" + "(" + str(len(text_obj)) + ")")
-    print("*" * 30)
+    print(line_obj)
     print("<処理結果取得完了>")
     print("<<<クリップボード貼付可能>>>")
-    print("*" * 30)
+    print(line_obj)
     print(text_obj)
     return text_obj
 
