@@ -1,5 +1,8 @@
 import webbrowser
 
+# 区切線
+line_obj = "=" * 30
+
 print("<投稿日の入力必須> 例:MMDD")
 input_day = input()
 head_day = "2026" + input_day
@@ -13,10 +16,10 @@ head_list = (
 
 head_result = " ".join(head_list)
 
-print("*" * 30)
+print(line_obj)
 print("<記事タイトル取得完了>")
 print(head_result)
-print("*" * 30)
+print(line_obj)
 
 # 半角空白文字検証
 assert head_result[8] == " "
@@ -46,7 +49,7 @@ print(f"<URL>:\n{my_url['1']}")
 # 該当URL起動確認
 webbrowser.open(my_url["1"], new=0, autoraise=True)
 
-print("*" * 30)
+print(line_obj)
 print("<URL検証完了>")
 
 
@@ -58,21 +61,21 @@ my_tag = (
 )
 
 
-print("*" * 30)
+print(line_obj)
 print("<投稿時の設定情報取得>")
-print("*" * 30)
+print(line_obj)
 
 print("<#タグ取得開始>")
-print("*" * 30)
+print(line_obj)
 
 i = 0
 for one_tag in my_tag:
     i = i + 1
     print(f"{one_tag}")
 
-print("*" * 30)
+print(line_obj)
 print("<#タグ取得完了>")
-print("*" * 30)
+print(line_obj)
 
 
 print("""
