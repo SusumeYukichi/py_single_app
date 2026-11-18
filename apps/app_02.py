@@ -1,25 +1,26 @@
 import sys
 from pathlib import Path
 
+"""
+<実行コマンド>
+python3 app_02.py sample.txt output.txt
+<詳細>
+<実行プログラム>:app_02.py
+<読込ファイル>:sample.txt
+<出力ファイル名指定>:output.txt
+"""
+
 # 区切線
 line_obj = "=" * 30
 
 print(line_obj)
 print("<プログラム開始>")
-print("<パス移動>:cd apps")
-print("<実行コマンド>:python3 app_02.py sample.txt output.txt")
 print(line_obj)
 
 print(sys.argv[0])
 print(sys.argv[1])
 print(sys.argv[2])
 
-"""
-コマンド詳細:
-<実行プログラム>:app_02.py
-<読込ファイル>:sample.txt
-<出力ファイル名指定>:output.txt
-"""
 
 try:
     file_obj = Path(__file__)
