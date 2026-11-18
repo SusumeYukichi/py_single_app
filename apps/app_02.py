@@ -1,11 +1,14 @@
 import sys
 from pathlib import Path
 
-print("*" * 30)
+# 区切線
+line_obj = "=" * 30
+
+print(line_obj)
 print("<プログラム開始>")
 print("<パス移動>:cd apps")
 print("<実行コマンド>:python3 app_02.py sample.txt output.txt")
-print("*" * 30)
+print(line_obj)
 
 print(sys.argv[0])
 print(sys.argv[1])
@@ -112,6 +115,6 @@ assert result.endswith("。")
 
 print("<検証終了>")
 
-print("*" * 30)
+print(line_obj)
 print("<ファイル出力処理完了>")
-print("*" * 30)
+print(line_obj)
