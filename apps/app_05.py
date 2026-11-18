@@ -2,12 +2,19 @@ import sqlite3
 import sys
 from pathlib import Path
 
+"""
+<実行コマンド>
+python3 app_05.py db.sqlite db.txt
+<詳細>
+<実行プログラム>:app_05.py
+<データベースのファイル名>:db.sqlite
+<出力ファイル名>:db.txt
+"""
+
 # 区切線
 line_obj = "=" * 30
 
-# コマンドライン引数:
-# python3 app_05.py db.sqlite db.txt
-
+# ファイルパス定義
 dir_path = Path(__file__).parent
 db_path = dir_path / sys.argv[1]
 output_path = dir_path / sys.argv[2]
