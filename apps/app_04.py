@@ -4,9 +4,12 @@ import webbrowser
 line_obj = "=" * 30
 
 print("<投稿日の入力必須> 例:MMDD")
+
+# 日付の入力
 input_day = input()
 head_day = "2026" + input_day
 
+# 記事の見出しなどを想定
 head_list = (
     head_day,
     "[公開]",
@@ -14,6 +17,7 @@ head_list = (
     "[アプリ-4]",
 )
 
+# リストの文字型
 head_result = " ".join(head_list)
 
 print(line_obj)
@@ -26,6 +30,7 @@ assert head_result[8] == " "
 assert head_result[-1] == "]"
 
 
+# 本文を想定
 temp_text = """
 【Github公開】を行いました.
 目的:アプリ製作進捗の外部発信効率化のため
@@ -39,7 +44,7 @@ temp_text = """
 print("<本文>")
 print(temp_text)
 
-
+# URLリスト
 my_url = {
     "1": "https://github.com/SusumeYukichi/py_single_app",
 }
@@ -53,6 +58,7 @@ print(line_obj)
 print("<URL検証完了>")
 
 
+# ハッシュタグを想定
 my_tag = (
     "#python3",
     "#公開",
@@ -76,10 +82,3 @@ for one_tag in my_tag:
 print(line_obj)
 print("<#タグ取得完了>")
 print(line_obj)
-
-
-print("""
-ログ出力後,文体チェックや追記等の調整実行
-ログ出力コマンド:python3 app_04.py > output.log
-コマンド実施時に投稿日の入力必要 例:MMDD
-""")
