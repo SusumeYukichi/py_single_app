@@ -1,6 +1,9 @@
 import re
 import sys
 
+# 区切線
+line_obj = "=" * 30
+
 text_obj = """
 ･API：ソフトウェア同士が機能やデータをやり取りする仕組み。
 ･HTTP：Webブラウザとサーバー間で通信するためのプロトコル。
@@ -30,10 +33,10 @@ pattern_obj = re.compile(
 match_obj = pattern_obj.findall(search_obj)
 
 if match_obj:
-    print("*" * 30)
+    print(line_obj)
     print("<検索結果>" + str(len(match_obj)) + "件です.")
     print("<加工処理開始>")
-    print("*" * 30)
+    print(line_obj)
 else:
     print("<該当なし>")
     print("<プログラム終了>")
@@ -46,9 +49,9 @@ for key, name in match_obj:
     name = name.replace("：", "")
     print(f"{i}.\n<用語>:{key}\n<意味>:{name}")
 
-print("*" * 30)
+print(line_obj)
 print("<加工処理完了>")
-print("*" * 30)
+print(line_obj)
 
 
 # 出力結果
