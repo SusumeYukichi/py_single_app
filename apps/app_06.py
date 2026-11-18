@@ -2,6 +2,9 @@ import sys
 from datetime import date
 from pathlib import Path
 
+# 区切線
+line_obj = "=" * 30
+
 """
 <パス移動>:
 cd apps
@@ -10,11 +13,11 @@ python3 app_06.py day_task.txt
 """
 
 
-print("*" * 30)
+print(line_obj)
 print("<プログラム開始>")
 print("実行ファイル:" + str(sys.argv[0]))
 print("保存ファイルパス指定:" + str(sys.argv[1]))
-print("*" * 30)
+print(line_obj)
 
 # 出力先パス
 file_obj = Path(__file__)
@@ -78,14 +81,14 @@ def input_info():
 # タスク追加
 def get_add_task():
     input_info()
-    print("*" * 30)
+    print(line_obj)
     print("<追加タスク>があれば5行入力してください")
     print("入力例-1:情報整理効率化の実施")
     print("入力例-2:フォルダ操作:osの検証")
     print("入力例-3:アプリのコードリファクタリング.")
     print("入力例-4:ローカル環境のフォルダ整理.")
     print("入力例-5:Noteの投稿記事表記揺れチェック.")
-    print("*" * 30)
+    print(line_obj)
     print("<追加タスク>が無ければEnterを押してください")
     try:
         add_01 = input()
@@ -147,12 +150,12 @@ def save_file(day_task):
         file.write(day_task)
 
 
-print("*" * 30)
+print(line_obj)
 day_task = task_create()
 print("<タスク設定完了>")
-print("*" * 30)
+print(line_obj)
 
-print("*" * 30)
+print(line_obj)
 save_file(day_task)
 print("ファイル出力完了")
-print("*" * 30)
+print(line_obj)
