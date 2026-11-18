@@ -2,15 +2,16 @@ import sys
 from datetime import date
 from pathlib import Path
 
+"""
+<実行コマンド>
+python3 app_06.py day_task.txt
+<詳細>
+<実行プログラム>:app_06.py
+<出力ファイル名指定>:day_task.txt
+"""
+
 # 区切線
 line_obj = "=" * 30
-
-"""
-<パス移動>:
-cd apps
-<実行コマンド>:
-python3 app_06.py day_task.txt
-"""
 
 
 print(line_obj)
@@ -150,11 +151,16 @@ def save_file(day_task):
         file.write(day_task)
 
 
+# ========================
+# 日次タスク作成
+# ========================
 print(line_obj)
 day_task = task_create()
 print("<タスク設定完了>")
 print(line_obj)
-
+# ========================
+# ファイル出力
+# ========================
 print(line_obj)
 save_file(day_task)
 print("ファイル出力完了")
