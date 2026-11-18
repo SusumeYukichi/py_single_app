@@ -2,6 +2,9 @@ import sqlite3
 import sys
 from pathlib import Path
 
+# 区切線
+line_obj = "=" * 30
+
 # コマンドライン引数:
 # python3 app_05.py db.sqlite db.txt
 
@@ -33,18 +36,18 @@ print("<2>:用語追加開始")
 
 # ハッシュタグとして用語登録
 try:
-    print("*" * 30)
+    print(line_obj)
     conn.execute('INSERT INTO my_words VALUES ("#python3")')
     conn.execute('INSERT INTO my_words VALUES ("#公開")')
     conn.execute('INSERT INTO my_words VALUES ("#アプリ開発")')
     conn.execute('INSERT INTO my_words VALUES ("#Github")')
     print("<3>:用語登録完了")
-    print("*" * 30)
+    print(line_obj)
 
 except sqlite3.IntegrityError:
-    print("*" * 30)
+    print(line_obj)
     print("<3>:既に用語は登録済です.")
-    print("*" * 30)
+    print(line_obj)
 
 # 用語の検索
 my_words = """
@@ -63,9 +66,9 @@ else:
     print("データベースに用語が登録されていません.")
 
 
-print("*" * 30)
+print(line_obj)
 print(f"取得結果:\n{new_list}")
-print("*" * 30)
+print(line_obj)
 
 print("<4>:テキスト改行処理開始")
 
