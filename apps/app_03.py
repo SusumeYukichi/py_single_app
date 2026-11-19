@@ -1,12 +1,16 @@
 import re
-import sys
 
 # 区切線
 line_obj = "=" * 30
 
-# 正規表現の検索テキスト
-text_obj = """
-･API：ソフトウェア同士が機能やデータをやり取りする仕組み。
+print(line_obj)
+print("<プログラム開始>")
+print(line_obj)
+
+
+# テキスト取得・データ整形
+def get_text_obj():
+    text_obj = """･API：ソフトウェア同士が機能やデータをやり取りする仕組み。
 ･HTTP：Webブラウザとサーバー間で通信するためのプロトコル。
 ･HTTPS：HTTP通信をTLSによって暗号化する仕組み。
 ･DNS：ドメイン名をIPアドレスなどの情報に対応付ける仕組み。
@@ -15,42 +19,55 @@ text_obj = """
 ･DBMS：データベースを管理・操作するためのソフトウェア。
 ･Git：ソースコードなどの変更履歴を管理する分散型バージョン管理システム。
 ･Docker：アプリケーションをコンテナとして実行・管理するための技術。
-･Flask：PythonでWebアプリケーションを構築するための軽量フレームワーク。
-"""
+･Flask：PythonでWebアプリケーションを構築するための軽量フレームワーク。"""
 
-# データ整形
-search_obj = text_obj.replace("･", "").strip()
+    # データ整形(検索処理前)・削除 空白削除(先頭と末尾)
+    search_obj = text_obj.replace("･", "").strip()
+    return text_obj, search_obj
 
-# 正規表現
-pattern_obj = re.compile(
-    r"""
-    (\w+) # 1文字以上の数字，英文字，下線(アンダースコア)
-    (.*) # (\n)以外の全ての文字列
-    """,
-    re.VERBOSE,
-)
 
-# タプル型の検索結果取得
-match_obj = pattern_obj.findall(search_obj)
+# IT用語検索
+def get_match_obj(search_obj):
 
-# 検索結果表示
-if match_obj:
-    print(line_obj)
-    print("<検索結果>" + str(len(match_obj)) + "件です.")
-    print("<加工処理開始>")
-    print(line_obj)
-else:
-    print("<該当なし>")
-    print("<プログラム終了>")
-    sys.exit()
+    # 正規表現
+    pattern_obj = re.compile(
+        r"""
+        (\w+) # 1文字以上の数字，英文字，下線(アンダースコア)
+        (.*) # (\n)以外の全ての文字列
+        """,
+        re.VERBOSE,
+    )
 
-i = 0
-for key, name in match_obj:
-    i = i + 1
-    # データ整形
-    name = name.replace("：", "")
-    print(f"{i}.\n<用語>:{key}\n<意味>:{name}")
+    match_obj = pattern_obj.findall(search_obj)
+    return match_obj
 
+
+# データ整形(検索処理後)
+def get_it_obj(match_obj):
+    i = 0
+    for key, name in match_obj:
+        i = i + 1
+        name = name.replace("：", "").replace("。", "")
+        print(f"{i}.{key}\n{name}")
+
+
+# ======================================
+# 正規表現の抽出対象取得
+text_obj, search_obj = get_text_obj()
+print(line_obj)
+print(f"<データ整形開始>\n{text_obj}")
+print(f"<データ整形完了>\n{search_obj}")
+print(line_obj)
+# ======================================
+# IT用語検索(タプル型)
+match_obj = get_match_obj(search_obj)
+print(line_obj)
+print("<検索該当>" + " " + str(len(match_obj)) + " " + "件です.")
+print(line_obj)
+# ======================================
+# データ整形(検索処理後)
+get_it_obj(match_obj)
+# ======================================
 print(line_obj)
 print("<加工処理完了>")
 print(line_obj)
