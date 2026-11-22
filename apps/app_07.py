@@ -39,11 +39,17 @@ def get_index(index):
     print("小数点入力不可")
     try:
         print(index + " " + "<当日の値を入力してください>")
-        t_d = input(">")
+        t_d = int(input(">"))
+        if t_d == str:
+            raise Exception("当日の値は自然数でなければならない")
+
         print(index + " " + "<前日分の値を入力してください>")
-        y_d = input(">")
-        # アンパック代入
-        t_d, y_d = int(t_d), int(y_d)
+        y_d = int(input(">"))
+        if y_d == str:
+            raise Exception("昨日の値は自然数でなければならない")
+
+        # # アンパック代入
+        # t_d, y_d = int(t_d), int(y_d)
 
     # 例外処理
     except KeyboardInterrupt:
@@ -187,4 +193,9 @@ def main():
 
 # ========================================
 # プログラム実行
-main()
+try:
+    main()
+except Exception as err:
+    print("自然数以外が入力されました.")
+    print("エラーメッセージ:" + str(err))
+    sys.exit("プログラムを終了します")
