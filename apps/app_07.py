@@ -39,17 +39,16 @@ def get_index(index):
     print("小数点入力不可")
     try:
         print(index + " " + "<当日の値を入力してください>")
-        t_d = input()
+        t_d = input(">")
         print(index + " " + "<前日分の値を入力してください>")
-        y_d = input()
+        y_d = input(">")
         # アンパック代入
         t_d, y_d = int(t_d), int(y_d)
 
     # 例外処理
     except KeyboardInterrupt:
         print("入力がキャンセルされました")
-        print("プログラムを終了します")
-        sys.exit()
+        sys.exit("プログラムを終了します")
 
     return t_d, y_d
 
@@ -65,8 +64,7 @@ def get_ratio(index, t_d, y_d):
     # 例外処理 <ゼロ除算>
     except ZeroDivisionError:
         print("<エラー!><ゼロ除算>")
-        print("プログラムを終了します")
-        sys.exit()
+        sys.exit("プログラムを終了します")
 
     return result
 
@@ -112,7 +110,7 @@ def day_metric(index, ratio_obj, subtract_obj):
     print(index + " " + "<前日比>")
     print(str(ratio_obj) + " " + "倍")
     print(index + " " + "<差分値>")
-    print(str(subtract_obj))
+    print(str(subtract_obj) + " " + "回")
     print(line_obj)
 
 
@@ -132,8 +130,7 @@ def get_analysis():
         analysis_obj = str(input())
     except KeyboardInterrupt:
         print("入力がキャンセルされました")
-        print("プログラムを終了します")
-        sys.exit()
+        sys.exit("プログラムを終了します")
 
     return analysis_obj
 
@@ -148,6 +145,22 @@ def day_analysis(index):
     print(line_obj)
 
 
+# <指標> <インプレッション> (投稿記事表示回数を想定)
+def get_imp_count():
+    imp = "<インプレッション>"
+    ratio_obj, subtract_obj = get_metric(imp)
+    day_metric(imp, ratio_obj, subtract_obj)
+    day_analysis(imp)
+
+
+# <指標> <ページビュー> (投稿記事クリック数を想定)
+def get_pag_count():
+    pag = "<ページビュー>"
+    ratio_obj, subtract_obj = get_metric(pag)
+    day_metric(pag, ratio_obj, subtract_obj)
+    day_analysis(pag)
+
+
 # 全体の要因分析
 def second_analysis():
     try:
@@ -160,24 +173,18 @@ def second_analysis():
         print("<主な要因>" + "\n" + analysis_obj + "が考えられる.")
     except KeyboardInterrupt:
         print("入力がキャンセルされました")
-        print("プログラムを終了します")
-        sys.exit()
+        sys.exit("プログラムを終了します")
+
+
+def main():
+    get_imp_count()
+    get_pag_count()
+    second_analysis()
+    print(line_obj)
+    print("<指標分析完了>")
+    print(line_obj)
 
 
 # ========================================
-# <指標> <インプレッション> (投稿記事表示回数を想定)
-imp = "<インプレッション>"
-ratio_obj, subtract_obj = get_metric(imp)
-day_metric(imp, ratio_obj, subtract_obj)
-day_analysis(imp)
-
-# ========================================
-# <指標> <ページビュー> (投稿記事クリック数を想定)
-pag = "<ページビュー>"
-ratio_obj, subtract_obj = get_metric(pag)
-day_metric(pag, ratio_obj, subtract_obj)
-day_analysis(pag)
-
-# ========================================
-# 全体の要因分析
-second_analysis()
+# プログラム実行
+main()
