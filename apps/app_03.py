@@ -21,9 +21,18 @@ def get_text_obj():
 ･Docker：アプリケーションをコンテナとして実行・管理するための技術。
 ･Flask：PythonでWebアプリケーションを構築するための軽量フレームワーク。"""
 
+    print(line_obj)
+    print(f"<データ整形開始>\n{text_obj}")
+    print(line_obj)
+
     # データ整形(検索処理前)・削除 空白削除(先頭と末尾)
     search_obj = text_obj.replace("･", "").strip()
-    return text_obj, search_obj
+
+    print(line_obj)
+    print(f"<データ整形完了>\n{search_obj}")
+    print(line_obj)
+
+    return search_obj
 
 
 # IT用語検索
@@ -39,6 +48,11 @@ def get_match_obj(search_obj):
     )
 
     match_obj = pattern_obj.findall(search_obj)
+
+    print(line_obj)
+    print("<検索該当>" + " " + str(len(match_obj)) + " " + "件です.")
+    print(line_obj)
+
     return match_obj
 
 
@@ -49,25 +63,16 @@ def get_it_obj(match_obj):
         i = i + 1
         name = name.replace("：", "").replace("。", "")
         print(f"{i}.{key}\n{name}")
+    print(line_obj)
+    print("<加工処理完了>")
+    print(line_obj)
 
 
-# ======================================
-# 正規表現の抽出対象取得
-text_obj, search_obj = get_text_obj()
-print(line_obj)
-print(f"<データ整形開始>\n{text_obj}")
-print(f"<データ整形完了>\n{search_obj}")
-print(line_obj)
-# ======================================
-# IT用語検索(タプル型)
-match_obj = get_match_obj(search_obj)
-print(line_obj)
-print("<検索該当>" + " " + str(len(match_obj)) + " " + "件です.")
-print(line_obj)
-# ======================================
-# データ整形(検索処理後)
-get_it_obj(match_obj)
-# ======================================
-print(line_obj)
-print("<加工処理完了>")
-print(line_obj)
+def main():
+    search_obj = get_text_obj()
+    match_obj = get_match_obj(search_obj)
+    get_it_obj(match_obj)
+
+
+# プログラム実行
+main()
