@@ -99,7 +99,7 @@ def get_save_obj(search_obj):
 # 数値入力
 def get_user_task(save_obj):
     print("保存開始したい場合は1,キャンセルしたい場合は0")
-    task = int(input())
+    task = int(input(">"))
     get_write(task, save_obj)
 
 
@@ -122,8 +122,7 @@ def main():
     get_user_task(save_obj)
     conn.close()
     print("<6>:データベース接続終了")
-    print("<7>:プログラム終了")
-    sys.exit()
+    sys.exit("<7>:プログラム終了")
 
 
 # ========================================
