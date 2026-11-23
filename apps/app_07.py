@@ -33,27 +33,41 @@ item_list = [
     ],
 ]
 
+# <指標> <インプレッション> (投稿記事表示回数を想定)
+imp = "<インプレッション>"
+# <指標> <ページビュー> (投稿記事クリック数を想定)
+pag = "<ページビュー>"
+
+
+# 昨日値
+y_d = ""
+# 当日値
+t_d = ""
+
 
 # 指標値の入力
-def get_index(index):
-    print("小数点入力不可")
+def get_input_obj():
     try:
-        print(index + " " + "<当日の値を入力してください>")
-        t_d = int(input(">"))
-        if t_d == str:
-            raise Exception("当日の値は自然数でなければならない")
+        print("<当日値>を入力してください>\n小数点入力不可")
+        t_d = input(">")
+        if not t_d.isdecimal():
+            raise ValueError("入力値は自然数でなければならない")
 
-        print(index + " " + "<前日分の値を入力してください>")
-        y_d = int(input(">"))
-        if y_d == str:
-            raise Exception("昨日の値は自然数でなければならない")
+        print("<前日値>を入力してください>\n小数点入力不可")
+        y_d = input(">")
+        if not y_d.isdecimal():
+            raise ValueError("入力値は自然数でなければならない")
 
-        # # アンパック代入
-        # t_d, y_d = int(t_d), int(y_d)
+        # アンパック代入
+        t_d, y_d = int(t_d), int(y_d)
 
     # 例外処理
-    except KeyboardInterrupt:
-        print("入力がキャンセルされました")
+    except KeyboardInterrupt as e:
+        print(f"エラー:{e}")
+        sys.exit("プログラムを終了します")
+
+    except ValueError as e:
+        print(f"エラー:{e}")
         sys.exit("プログラムを終了します")
 
     return t_d, y_d
@@ -61,141 +75,83 @@ def get_index(index):
 
 # 前日比 (当日/前日)
 def get_ratio(index, t_d, y_d):
-    print(line_obj)
-    print(index + " " + "前日比計算開始")
     try:
         ratio_obj = t_d / y_d
         # 小数第2位まで表示
         result = round(ratio_obj, 2)
+        print(f"{index} <前日比> {result} 倍")
     # 例外処理 <ゼロ除算>
-    except ZeroDivisionError:
-        print("<エラー!><ゼロ除算>")
+    except ZeroDivisionError as e:
+        print(f"エラー:{e}")
         sys.exit("プログラムを終了します")
-
-    return result
 
 
 # 差分 (当日-前日)
 def get_subtract(index, t_d, y_d):
+    result = t_d - y_d
+
+    if result >= 1:
+        print("<差分増加>")
+    elif result == 0:
+        print("<差分同値>")
+    elif result <= -1:
+        print("<差分減少>")
+
+    print(f"{index} <前日差> {abs(result)} 回")
+
+
+def list_info(first_list, second_list):
     print(line_obj)
-    print(index + " " + "差分値計算開始")
-    subtract_obj = t_d - y_d
-
-    if subtract_obj > 1:
-        print(line_obj)
-        print("差分は前日よりプラスでした.")
-        print(line_obj)
-
-    elif subtract_obj == 0:
-        print(line_obj)
-        print("差分は前日と同値でした.")
-        print(line_obj)
-
-    elif subtract_obj < 1:
-        print(line_obj)
-        print("差分は前日よりもマイナスでした.")
-        print(line_obj)
-
-    # 絶対値変換
-    result = abs(subtract_obj)
-
-    return result
-
-
-# 計算の一括処理
-def get_metric(index):
-    t_d, y_d = get_index(index)
-    ratio_obj = get_ratio(index, t_d, y_d)
-    subtract_obj = get_subtract(index, t_d, y_d)
-    return ratio_obj, subtract_obj
-
-
-# 計算結果表示
-def day_metric(index, ratio_obj, subtract_obj):
-    print(line_obj)
-    print(index + " " + "<前日比>")
-    print(str(ratio_obj) + " " + "倍")
-    print(index + " " + "<差分値>")
-    print(str(subtract_obj) + " " + "回")
-    print(line_obj)
-
-
-# 用語リスト取得
-def get_list():
-    print("<分析用語リスト>")
-    print(line_obj)
+    print(f"<名称>:{first_list}")
     print(analysis_list)
+    print(line_obj)
+    print(f"<名称>:{second_list}")
+    print(item_list)
     print(line_obj)
 
 
 # 分析用語入力
-def get_analysis():
-    get_list()
+def get_analysis(index):
     try:
-        print("<分析用語>を入力してください")
-        analysis_obj = str(input())
+        list_info("<分析用語リスト>", "<記事関連用語リスト")
+        print("<分析開始> 当てはまる<分析用語>を選択してください")
+        analysis_obj = str(input(">"))
+        print("<分析開始> 当てはまる<主な要因>を記載してください")
+        item_obj = str(input(">"))
     except KeyboardInterrupt:
         print("入力がキャンセルされました")
         sys.exit("プログラムを終了します")
 
-    return analysis_obj
+    print(f"{index} <結果分析>\n{analysis_obj}と考えられる.")
+    print(f"{index} <主な要因>\n{item_obj}が考えられる.")
+
+    return analysis_obj, item_obj
 
 
-# 分析結果
-def day_analysis(index):
-    print("<計算結果分析開始>")
-    print(line_obj)
-    print(index)
-    result = get_analysis()
-    print("<結果分析>" + "\n" + result + "と考えられる.")
-    print(line_obj)
+def get_first_index():
+    print(f"{imp} 実行開始")
+    t_d, y_d = get_input_obj()
+    get_ratio(imp, t_d, y_d)
+    get_subtract(imp, t_d, y_d)
 
 
-# <指標> <インプレッション> (投稿記事表示回数を想定)
-def get_imp_count():
-    imp = "<インプレッション>"
-    ratio_obj, subtract_obj = get_metric(imp)
-    day_metric(imp, ratio_obj, subtract_obj)
-    day_analysis(imp)
-
-
-# <指標> <ページビュー> (投稿記事クリック数を想定)
-def get_pag_count():
-    pag = "<ページビュー>"
-    ratio_obj, subtract_obj = get_metric(pag)
-    day_metric(pag, ratio_obj, subtract_obj)
-    day_analysis(pag)
-
-
-# 全体の要因分析
-def second_analysis():
-    try:
-        print(line_obj)
-        print("記事関連用語リスト")
-        print(item_list)
-        print(line_obj)
-        print("<主な要因>を入力してください")
-        analysis_obj = str(input())
-        print("<主な要因>" + "\n" + analysis_obj + "が考えられる.")
-    except KeyboardInterrupt:
-        print("入力がキャンセルされました")
-        sys.exit("プログラムを終了します")
+def get_second_index():
+    print(f"{pag} 実行開始")
+    t_d, y_d = get_input_obj()
+    get_ratio(pag, t_d, y_d)
+    get_subtract(pag, t_d, y_d)
 
 
 def main():
-    get_imp_count()
-    get_pag_count()
-    second_analysis()
+    get_first_index()
     print(line_obj)
-    print("<指標分析完了>")
+    get_analysis(imp)
+    get_second_index()
     print(line_obj)
+    get_analysis(pag)
+    print("<すべて実行完了>")
 
 
 # ========================================
 # プログラム実行
-try:
-    main()
-except Exception as err:
-    print("自然数以外が入力されました.")
-    print("エラーメッセージ:" + str(err))
-    sys.exit("プログラムを終了します")
+main()
