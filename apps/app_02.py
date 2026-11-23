@@ -16,24 +16,24 @@ print(line_obj)
 print("<プログラム開始>")
 print(line_obj)
 
-# パス定義
-file_obj = Path(__file__)
-directory = file_obj.parent
+
+# 例外処理 コマンドライン引数
+try:
+    if sys.argv[1] != "sample.txt":
+        raise IndexError("読込先の引数が正しくありません.")
+    if sys.argv[2] != "output.txt":
+        raise IndexError("出力先の引数が正しくありません.")
+except IndexError as e:
+    print(f"<実行コマンド>\nエラー:{e}")
+    sys.exit("プログラムを終了します.")
 
 
-# コマンドライン引数
-def get_file_path():
-    try:
-        file_path = directory / sys.argv[1]
-        assert sys.argv[1] == "sample.txt", "引数-2と異なります"
-        output_path = directory / sys.argv[2]
-        assert sys.argv[2] == "output.txt", "引数-3と異なります"
-
-    # 例外処理
-    except IndexError:
-        print("コマンドライン引数が未設定です")
-        sys.exit("プログラムを終了します.")
-
+# パス取得
+def get_path_obj():
+    file_path = Path(__file__)
+    dir_path = file_path.parent
+    file_path = dir_path / sys.argv[1]
+    output_path = dir_path / sys.argv[2]
     return file_path, output_path
 
 
@@ -42,9 +42,7 @@ def read_file(file_path):
     try:
         with open(file_path, encoding="utf-8") as file:
             read_obj = file.read()
-            print(line_obj)
-            print("ファイル読込完了")
-            print(line_obj)
+            print(f"{line_obj}\n<ファイル読込完了>\n{line_obj}")
 
     # 例外処理 読込ファイル検証
     except FileNotFoundError:
@@ -54,45 +52,59 @@ def read_file(file_path):
     return read_obj
 
 
-# 読込ファイル加工処理
-def get_save_obj(read_obj):
+# オブジェクトのlist型変換
+def get_list_obj(read_obj):
     list_obj = read_obj.split("\n")
+    return list_obj
+
+
+# 記号追加処理
+def get_new_list(list_obj):
     new_list = []
-    for obj in list_obj:
-        obj = obj.replace("：", ":\n").replace("。", ".")
-        new_list.append(f"{obj}")
+    for i in range(len(list_obj)):
+        lines = list_obj[i].replace("：", ":\n").replace("。", ".")
+        # 記号検証開始
+        assert "。" not in lines
+        assert "：" not in lines
 
-    save_obj = "\n".join(new_list)
+        print(f"<行数:{i + 1}>\n<改行・整形処理> 実行")
+        new_list.append(lines)
+    print(f"{line_obj}\n<データ整形処理 すべて実行完了>\n{line_obj}")
+    return new_list
 
-    # 記号検証開始
-    assert "。" not in save_obj
-    assert "：" not in save_obj
 
-    # 文字型検証
-    assert type(save_obj) == str, "文字型ではありません.!"
+# new_listのstr型変換
+def get_new_obj(new_list):
+    new_obj = "\n".join(new_list)
+    return new_obj
 
-    print(line_obj)
-    print("<ファイル加工処理完了>")
-    print(line_obj)
 
-    return save_obj
+# 機能の集約
+def get_save_obj(file_path, output_path):
+    read_obj = read_file(file_path)
+    list_obj = get_list_obj(read_obj)
+    new_list = get_new_list(list_obj)
+    new_obj = get_new_obj(new_list)
+
+    # アンパック代入
+    save_obj, save_path = new_obj, output_path
+
+    return save_obj, save_path
 
 
 # ファイル出力
-def get_write(save_obj, output_path):
-    with open(output_path, "w", encoding="utf-8") as file:
+def get_write(save_obj, save_path):
+    with open(save_path, "w", encoding="utf-8") as file:
         file.write(save_obj)
-        print(line_obj)
-        print("<ファイル出力処理完了>")
-        print(line_obj)
+        print(f"{line_obj}\n<ファイル出力処理完了>\n{line_obj}")
 
 
 def main():
-    file_path, output_path = get_file_path()
-    read_obj = read_file(file_path)
-    save_obj = get_save_obj(read_obj)
-    get_write(save_obj, output_path)
+    file_path, output_path = get_path_obj()
+    save_obj, save_path = get_save_obj(file_path, output_path)
+    get_write(save_obj, save_path)
 
 
+# ========================================
 # プログラム実行
 main()
