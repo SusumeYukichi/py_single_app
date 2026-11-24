@@ -1,6 +1,7 @@
 import sys
 from datetime import date
 from pathlib import Path
+from pprint import pprint
 
 """
 <実行コマンド>
@@ -18,137 +19,139 @@ print(line_obj)
 print("<プログラム開始>")
 print(line_obj)
 
-# 出力先パス
-file_obj = Path(__file__)
-directory = file_obj.parent
-output_path = directory / sys.argv[1]
-
 
 # タスク一覧
 task_list = [
-    [
-        "[タスクの優先順位設定]",
-        "[アプリ製作のアイデア言語化]",
-        "[要件定義]",
-        "[動作検証]",
-        "[Github 公開]",
-        "[Note 外部発信]",
-    ],
-    [
-        "[ローカル環境のフォルダ整理]",
-        "[既存アプリのリファクタリング]",
-        "[AIに関するニュースの検索]",
-        "[Noteのアクセス状況分析]",
-    ],
-]
-
-# Pythonのライブラリ一覧
-py_lib = [
-    [
-        "[クリップボード操作:pyperclip]",
-        "[検索・置換:re]",
-    ],
-    [
-        "[フォルダ操作:pathlib]",
-        "[フォルダ操作:os]",
-        "[コマンド操作:sys]",
-    ],
-    [
-        "[Excelファイル操作:openpyxl]",
-        "[PDF管理:pypdf]",
-    ],
-    [
-        "[URL操作:webbrowser]",
-        "[データベース操作:sqlite3]",
-        "[日時取得:datetime]",
-    ],
+    "アプリ製作:アイデア言語化・要件定義・コーディング・動作検証",
+    "公開作業:Github・Note・Youtube",
+    "コード整理:関数化・データ構造化",
+    "分析作業:Noteのダッシュボード確認・前日比・差分集計",
 ]
 
 
-# タスク全体の参照情報
-def task_info():
-    print("<共通タスク一覧>")
-    print(task_list[0])
-    print(line_obj)
-    print("<追加のタスク候補>")
-    print(task_list[-1])
-    print("<Pythonライブラリ>")
-    print(py_lib[0])
-    print(py_lib[1])
-    print(py_lib[-1])
-    print("ライブラリ取得完了")
+# Pythonライブラリ一覧
+lib_list = [
+    "クリップボード:pyperclip",
+    "検索・置換:re",
+    "フォルダ:pathlib・os",
+    "コマンド:sys",
+    "Excel:openpyxl",
+    "PDF:pypdf",
+    "URL:webbrowser",
+    "データベース:sqlite3",
+    "日時:datetime",
+]
+
+# 例外処理 コマンドライン引数
+try:
+    if sys.argv[1] != "day_task.txt":
+        raise IndexError("出力先の引数が正しくありません.")
+except IndexError as e:
+    print(f"<実行コマンド>\nエラー:{e}")
+    sys.exit("プログラムを終了します.")
 
 
-# 追加タスク入力時参照例
-def input_info():
-    print(line_obj)
-    print("<追加タスク>があれば5行入力してください")
-    print("入力例-1:情報整理効率化の実施")
-    print("入力例-2:フォルダ操作:osの検証")
-    print("入力例-3:アプリのコードリファクタリング.")
-    print("入力例-4:ローカル環境のフォルダ整理.")
-    print("入力例-5:Noteの投稿記事表記揺れチェック.")
-    print(line_obj)
-    print("<追加タスク>が無ければEnterを押してください")
+# 出力先パス取得
+def get_path_obj():
+    file_obj = Path(__file__)
+    directory = file_obj.parent
+    output_path = directory / sys.argv[1]
+
+    return output_path
 
 
-# タスク設定日と共通タスク取得
-def get_today_task(task_list):
-    today = "作成日:" + str(date.today())
-    task_join_obj = "\n".join(task_list[0])
-    print("日次の共通タスク取得完了")
-    return today, task_join_obj
+# 共通タスク　保存オブジェクト取得
+def save_common_list():
+    new_list = []
+    i = 0
+    for i in range(len(task_list)):
+        lines = task_list[i]
+        new_list.append(lines)
+        save_obj = "\n".join(new_list)
+    save_path = get_path_obj()
+    return save_obj, save_path
 
 
-# タスク追加入力
-def get_add_task():
-    input_info()
+# 共通タスク保存 (上書きモード)
+def write_common_task(save_obj, today_obj, save_path):
+    with open(save_path, "w", encoding="utf-8") as file:
+        file.write("設定日:" + today_obj + "\n")
+        file.write("共通タスク一覧:" + "\n" + save_obj + "\n")
+
+
+# 共通タスク取得　関数集約
+def get_common_task():
+    save_obj, save_path = save_common_list()
+    today_obj = str(date.today())
+    write_common_task(save_obj, today_obj, save_path)
+    print(f"{line_obj}\n<ファイル出力処理完了>\n{line_obj}")
+
+
+# ========================================
+# タスク追加に関するコード
+# ========================================
+
+
+# タスク追加のオブジェクト取得
+def get_create_list():
+    create_list = []
+    print("共通タスク一覧")
+    pprint(task_list)
+    print("Pythonのライブラリ一覧")
+    pprint(lib_list)
+    print("<新しいタスクが有れば5行追加可能です>")
     try:
-        add_01 = input(">")
-        print("<1行目入力完了>")
-        add_02 = input(">")
-        print("<2行目入力完了>")
-        add_03 = input(">")
-        print("<3行目入力完了>")
-        add_04 = input(">")
-        print("<4行目入力完了>")
-        add_05 = input(">")
-        print("<5行目入力完了>")
-        add_task = (
-            add_01 + "\n" + add_02 + "\n" + add_03 + "\n" + add_04 + "\n" + add_05
-        )
+        for num in range(1, 6):
+            add_task = str(num) + "件目:" + input(">")
+            print(f"{num} 件目 入力完了")
+            create_list.append(add_task)
 
     except KeyboardInterrupt:
         print("入力をやり直してください")
         sys.exit("プログラムを終了します")
 
-    return add_task
+    print("<追加タスク> <すべて入力完了>")
+    return create_list
 
 
-# 日次タスク取得 (日付＋共通タスク＋追加分)
-def task_create(today, task_join_obj, add_task):
-    save_obj = today + "\n" + task_join_obj + "\n" + add_task
+# create_listのstr型変換
+def save_create_list(create_list):
+    new_obj = "\n".join(create_list)
+    save_obj = new_obj
     return save_obj
 
 
-# ファイル出力
-def save_file(save_obj, output_path):
-    with open(output_path, "w", encoding="utf-8") as file:
-        file.write(save_obj)
-        print(line_obj)
-        print("ファイル出力完了")
-        print(line_obj)
+# 新規タスク保存 (共通タスクに追記する処理)
+def write_create_task(save_obj, save_path):
+    with open(save_path, "a", encoding="utf-8") as file:
+        file.write(line_obj + "\n" + "追加タスク:" + "\n" + save_obj)
+        print(f"{line_obj}\n<ファイル追記処理完了>\n{line_obj}")
+
+
+# 新規タスク追加処理　関数集約
+def get_create_task():
+    create_list = get_create_list()
+    save_obj = save_create_list(create_list)
+    save_path = get_path_obj()
+    write_create_task(save_obj, save_path)
 
 
 def main():
-    task_info()
-    today, task_join_obj = get_today_task(task_list)
-    add_task = get_add_task()
-    print("<追加タスク入力完了>")
-    save_obj = task_create(today, task_join_obj, add_task)
-    save_file(save_obj, output_path)
+    get_common_task()
+    get_create_task()
 
 
 # ========================================
 # プログラム実行
 main()
+
+# ======================================
+# テキストサンプル-1
+# ======================================
+"""
+ローカル環境のフォルダ整理.
+新規のライブラリについて情報整理.
+Noteの投稿記事表記揺れチェック.
+AIのプロンプト情報整理.
+技術書の再読.
+"""
