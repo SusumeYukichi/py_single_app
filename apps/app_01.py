@@ -54,16 +54,15 @@ def get_list_obj(p_obj):
 def get_new_list(list_obj):
     new_list = []
     head_item = "･"
-    for i in range(len(list_obj)):
-        if not list_obj[i].startswith("･"):
-            lines = head_item + list_obj[i]
+    for i, obj in enumerate(list_obj):
+        if not obj.startswith("･"):
+            lines = head_item + obj
+            new_list.append(lines)
             print(f"<行数:{i + 1}> 追加")
-            assert lines.startswith("･")
-            new_list.append(lines)
         else:
-            lines = list_obj[i]
-            print(f"<行数{i + 1}> {head_item} 該当 追加処理スキップ")
+            lines = obj
             new_list.append(lines)
+            print(f"<行数{i + 1}> {head_item} 該当 追加処理スキップ")
 
     print(f"{line_obj}\n<記号処理すべて実行完了>\n{line_obj}")
     return new_list
