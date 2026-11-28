@@ -31,15 +31,31 @@ task_list = [
 
 # Pythonライブラリ一覧
 lib_list = [
-    "クリップボード:pyperclip",
-    "検索・置換:re",
-    "フォルダ:pathlib・os",
-    "コマンド:sys",
-    "Excel:openpyxl",
-    "PDF:pypdf",
-    "URL:webbrowser",
-    "データベース:sqlite3",
-    "日時:datetime",
+    [
+        "クリップボード:pyperclip",
+    ],
+    [
+        "検索・置換:re",
+    ],
+    [
+        "フォルダ:pathlib・os",
+    ],
+    [
+        "コマンド:sys",
+    ],
+    [
+        "URL:webbrowser",
+    ],
+    [
+        "日時:datetime",
+    ],
+    [
+        "Excel:openpyxl",
+        "PDF:pypdf",
+    ],
+    [
+        "データベース:sqlite3",
+    ],
 ]
 
 # 例外処理 コマンドライン引数
@@ -93,24 +109,30 @@ def get_common_task():
 
 
 # タスク追加のオブジェクト取得
-def get_create_list():
+def get_create_list(name, sample):
     create_list = []
-    print("共通タスク一覧")
+    print("<共通タスク Pythonライブラリ>")
     pprint(task_list)
-    print("Pythonのライブラリ一覧")
+    print(f"{line_obj}\n{line_obj}")
     pprint(lib_list)
-    print("<新しいタスクが有れば5行追加可能です>")
     try:
+        print(f"{name}が有れば5行追加可能です.")
         for num in range(1, 6):
-            add_task = str(num) + "件目:" + input(">")
-            print(f"{num} 件目 入力完了")
+            print(f"{name}が無ければ{sample}")
+            input_obj = input(">")
+            if input_obj == "":
+                input_obj = "-"
+                add_task = f"{num}件目:{input_obj}"
+            else:
+                add_task = f"{num}件目:{input_obj}"
+
             create_list.append(add_task)
+            print(f"{num}件目: 処理完了")
 
     except KeyboardInterrupt:
         print("入力をやり直してください")
         sys.exit("プログラムを終了します")
 
-    print("<追加タスク> <すべて入力完了>")
     return create_list
 
 
@@ -130,7 +152,7 @@ def write_create_task(save_obj, save_path):
 
 # 新規タスク追加処理　関数集約
 def get_create_task():
-    create_list = get_create_list()
+    create_list = get_create_list("<追加タスク>", "Enterを押してください.")
     save_obj = save_create_list(create_list)
     save_path = get_path_obj()
     write_create_task(save_obj, save_path)
@@ -154,4 +176,10 @@ main()
 Noteの投稿記事表記揺れチェック.
 AIのプロンプト情報整理.
 技術書の再読.
+"""
+# ======================================
+# テキストサンプル-2
+# ======================================
+"""
+ローカル環境のフォルダ整理.
 """
