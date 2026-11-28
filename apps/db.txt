@@ -1,4 +1,4 @@
-#python3
-#公開
-#アプリ開発
-#Github
+python3
+公開
+アプリ開発
+Github
